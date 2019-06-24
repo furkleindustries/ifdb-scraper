@@ -4,13 +4,13 @@ const cheerio = require('cheerio');
 const iconvLite = require('iconv-lite');
 const scrapeDeep = require('./scrapeDeep');
 
-module.exports = (res, deep) => {
+module.exports = (res, deep, verbose) => {
   let doc = '';
   let outputs = [];
   return new Promise((resolve, reject) => {
     res.on('error', reject);
     res.on('data', (data) => doc += iconvLite.decode(data, 'ISO-8859-1'));
-    res.on('close', () => {
+    res.on('close', async () => {
       const $ = cheerio.load(doc);
       const entries = $('.main > p');
 
@@ -18,11 +18,11 @@ module.exports = (res, deep) => {
         return resolve(allScrapingCompleteSymbol);
       }
 
-      try {
-        entries.each(async (index, el) => {
+      const proms = entries.map((index, el) => (
+        new Promise(async (resolve, reject) => {
           const elem = $(el);
           if (!elem) {
-            throw new Error(`The element was not valid.`);
+            return reject(`The element was not valid.`);
           }
 
           const img = elem.find('img');
@@ -51,25 +51,31 @@ module.exports = (res, deep) => {
           const href = elem.find('a').attr('href') || '';
           const id = (href.match(/id=(.+)$/) || [])[1];
 
+          /* Slow down the requests a bit to stop rate-limiting. */
+          const deepProps = deep ? await scrapeDeep(elem, verbose) || {} : {};
+
           outputs.push({
             author: (author || fallback).trim(),
             id: id || null,
-            img: imgAttr === '/blank.gif' ?
+            img: !imgAttr || imgAttr === '/blank.gif' ?
               null :
               `${apiUrl}/${imgAttr}` || null,
 
             link: (href && `${apiUrl}/${href}`) || null,
             published: (published || '0000').trim(),
             title: elem.find('b').text(),
-            ...(deep ? await scrapeDeep(elem) : {}),
+            ...deepProps,
           });
-        });
 
-        return resolve(outputs);
-      } catch (err) {
-        console.error(err);
-        return reject(err);
-      }
-    })
+          await new Promise((resolve) => setTimeout(resolve, 4000));
+
+          return resolve();
+        })
+      )).get();
+
+      await Promise.all(proms);
+
+      return resolve(outputs);
+    });
   });
 };

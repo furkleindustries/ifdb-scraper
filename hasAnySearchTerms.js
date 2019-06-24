@@ -1,12 +1,12 @@
 module.exports = (program) => (
   program &&
     (program.args && program.args.length) ||
-    program.authors ||
-    program.genres ||
-    program.ratings ||
+    program.author ||
+    program.genre ||
+    program.rating ||
     program.ratingDeviance ||
-    program.systems ||
-    program.tags ||
+    program.system ||
+    program.tag ||
     program.totalRatings ||
     program.published
 );

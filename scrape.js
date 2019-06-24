@@ -30,7 +30,7 @@ module.exports = async ({
 
     await new Promise((resolve, reject) => get(
       `${encodeURI(baseUrl)}&pg=${page}`,
-      (res) => handleIfdbResponse(res).then(
+      (res) => handleIfdbResponse(res, args.deep, args.verbose).then(
         (data) => {
           if (data === allScrapingCompleteSymbol) {
             ongoing = false;
