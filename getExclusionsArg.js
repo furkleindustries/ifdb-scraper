@@ -1,20 +1,19 @@
-const getAuthorsArg = require('./getAuthorsArg');
-const getGenresArg = require('./getGenresArg');
+const getAuthorArg = require('./getAuthorArg');
+const getGenreArg = require('./getGenreArg');
 const getPublishedArg = require('./getPublishedArg');
-const getRatingsArg = require('./getRatingsArg');
-const getSystemsArg = require('./getSystemsArg');
-const getTagsArg = require('./getTagsArg');
+const getRatingsArg = require('./getRatingArg');
+const getSystemArg = require('./getSystemArg');
+const getTagArg = require('./getTagArg');
 const getTotalRatingsArg = require('./getTotalRatingsArg');
-const oneOrArrayToArray = require('./oneOrArrayToArray');
 
 module.exports = ({
-  authors,
+  author,
   genres,
   published,
-  ratings,
+  rating,
   search,
-  systems,
-  tags,
+  system,
+  tag,
   totalRatings,
 }) => {
   let str = '';
@@ -23,32 +22,32 @@ module.exports = ({
     str += `-${search} `;
   }
 
-  if (authors) {
-    str += `-${getAuthorsArg(oneOrArrayToArray(authors))} `;
+  if (author) {
+    str += `-${getAuthorArg(author)} `;
   }
 
-  if (genres) {
-    str += `-${getGenresArg(oneOrArrayToArray(genres))} `;
+  if (genre) {
+    str += `-${getGenreArg(genres)} `;
   }
 
   if (published) {
-    str += `-${getPublishedArg(oneOrArrayToArray(published))} `;
+    str += `-${getPublishedArg(published)} `;
   }
 
-  if (ratings) {
-    str += `-${getRatingsArg(oneOrArrayToArray(ratings))} `;
+  if (rating) {
+    str += `-${getRatingsArg(rating)} `;
   }
 
-  if (systems) {
-    str += `-${getSystemsArg(oneOrArrayToArray(systems))} `;
+  if (system) {
+    str += `-${getSystemArg(system)} `;
   }
 
-  if (tags) {
-    str += `-${getTagsArg(oneOrArrayToArray(tags))} `;
+  if (tag) {
+    str += `-${getTagArg(tag)} `;
   }
 
   if (totalRatings) {
-    str += `-${getTotalRatingsArg(oneOrArrayToArray(totalRatings))} `;
+    str += `-${getTotalRatingsArg(totalRatings)} `;
   }
 
   return str;

@@ -1,22 +1,22 @@
-const getAuthorsArg = require('./getAuthorsArg');
+const getAuthorArg = require('./getAuthorArg');
 const getExclusionsArg = require('./getExclusionsArg');
-const getGenresArg = require('./getGenresArg');
+const getGenreArg = require('./getGenreArg');
 const getPublishedArg = require('./getPublishedArg');
-const getRatingsArg = require('./getRatingsArg');
-const getSystemsArg = require('./getSystemsArg');
-const getTagsArg = require('./getTagsArg');
+const getRatingsArg = require('./getRatingArg');
+const getSystemArg = require('./getSystemArg');
+const getTagArg = require('./getTagArg');
 const getTotalRatingsArg = require('./getTotalRatingsArg');
 
 module.exports = ({
-  authors,
+  author,
   exclusions,
-  genres,
+  genre,
   published,
   ratings,
   ratingsDeviance,
   search = '',
-  systems,
-  tags,
+  system,
+  tag,
   totalRatings,
   totalReviews,
 }) => {
@@ -26,40 +26,40 @@ module.exports = ({
     str += getExclusionsArg(exclusions);
   }
 
-  if (authors) {
-    str += getAuthorsArg(authors.split(','));
+  if (author) {
+    str += getAuthorArg(author);
   }
 
-  if (genres) {
-    str += getGenresArg(genres.split(','));
+  if (genre) {
+    str += getGenreArg(genre);
   }
-  
+
   if (published) {
-    str += getPublishedArg(published.split(','));
+    str += getPublishedArg(published);
   }
-  
+
   if (ratings) {
-    str += getRatingsArg(ratings.split(','));
+    str += getRatingsArg(ratings);
   }
 
   if (ratingsDeviance) {
-    str += getRatingsArg(ratingsDeviance.split(','));
+    str += getRatingsArg(ratingsDeviance);
   }
 
-  if (systems) {
-    str += getSystemsArg(systems.split(','));
+  if (system) {
+    str += getSystemArg(system);
   }
 
-  if (tags) {
-    str += getTagsArg(tags.split(','));
+  if (tag) {
+    str += getTagArg(tag);
   }
 
   if (totalRatings) {
-    str += getTotalRatingsArg(totalRatings.split(','));
+    str += getTotalRatingsArg(totalRatings);
   }
 
   if (totalReviews) {
-    str += getTotalReviewsArg(totalReviews.split(','));
+    str += getTotalReviewsArg(totalReviews);
   }
 
   return str.trim();
