@@ -1,0 +1,27 @@
+{
+  "name": "ifdb-scraper",
+  "version": "1.0.0",
+  "description": "A simple module and CLI tool for scraping entry metadata from the Interactive Fiction Database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/furkleindustries/ifdb-scraper.git"
+  },
+  "keywords": [
+    "ifdb",
+    "scraper",
+    "if"
+  ],
+  "author": "furkle",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/furkleindustries/ifdb-scraper/issues"
+  },
+  "homepage": "https://github.com/furkleindustries/ifdb-scraper#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.3"
+  }
+}
