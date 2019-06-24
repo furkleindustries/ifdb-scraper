@@ -1,1 +1,1 @@
-module.exports = 'https://ifdb.tads.org/search';
+module.exports = 'https://ifdb.tads.org';
