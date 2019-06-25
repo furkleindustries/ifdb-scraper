@@ -31,9 +31,22 @@ module.exports = (elem, verbose) => new Promise((resolve, reject) => get(
 
       const detailsElems = $('.indented .notes');
       if (!detailsElems.length) {
-        console.error(doc, `${apiUrl}/${elem.find('a').attr('href')}`);
-        return reject('No details pane. Cannot deep-parse entry.');
+        return reject(`No details pane. Cannot deep-parse entry at ${apiUrl}/${elem.find('a').attr('href')}`);
       }
+
+      const starRatingContainer = $('td > p + p img');
+      const ratingAttr = starRatingContainer.attr('title');
+      const approximateRating = ratingAttr ? Number(
+        /\.|½/.test(ratingAttr[1]) ? `${ratingAttr[0]}.5` : ratingAttr[0]
+      ) : null;
+
+      const totalRatings = Number(
+        $('a[title^="View all ratings and reviews"]')
+          .text()
+          .split(' ')[0]
+      );
+
+      const totalReviews = Number($('a[href="#memberReviews"]').text().split(' ')[0]);
 
       let ifid;
       let firstPublicationDate;
@@ -45,7 +58,6 @@ module.exports = (elem, verbose) => new Promise((resolve, reject) => get(
         .split(/\s\s/)
         .filter(Boolean)
         .map((aa) => aa.trim());
-
 
       details.forEach((line) => {
         if (/^Development system: /i.test(line)) {
@@ -60,11 +72,14 @@ module.exports = (elem, verbose) => new Promise((resolve, reject) => get(
       });
 
       const ret = {
+        approximateRating,
         downloads,
         firstPublicationDate,
         ifid,
         language,
         system,
+        totalRatings,
+        totalReviews,
       };
 
       return resolve(ret);

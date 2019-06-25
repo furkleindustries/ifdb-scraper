@@ -8,8 +8,7 @@ const scrape = require('./scrape');
 
 program
   .version(version, '-v, -V, --version')
-  .description(`${description}\n\nAll arguments with multiple values should ` +
-    'be comma-separated (e.g. foo, bar, baz). Ranges are expressed as x-y ' +
+  .description(`${description}\n\nRanges are expressed as x-y ` +
     'and may be open-ended on either end (e.g. x- or -y).')
   .arguments('<search>')
   .option('-a, --authors <authors>', 'The authors to include.')

@@ -1,6 +1,6 @@
 {
   "name": "ifdb-scraper",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "A simple module and CLI tool for scraping entry metadata from the Interactive Fiction Database.",
   "main": "cli.js",
   "module": "index.js",

@@ -5,6 +5,7 @@ const getRatingsArg = require('./getRatingArg');
 const getSystemArg = require('./getSystemArg');
 const getTagArg = require('./getTagArg');
 const getTotalRatingsArg = require('./getTotalRatingsArg');
+const getTotalReviewsArg = require('./getTotalReviewsArg');
 
 module.exports = ({
   author,
@@ -15,6 +16,7 @@ module.exports = ({
   system,
   tag,
   totalRatings,
+  totalReviews,
 }) => {
   let str = '';
 
@@ -48,6 +50,10 @@ module.exports = ({
 
   if (totalRatings) {
     str += `-${getTotalRatingsArg(totalRatings)} `;
+  }
+
+  if (totalReviews) {
+    str += `-${getTotalReviewsArg(totalReviews)} `;
   }
 
   return str;
