@@ -29,27 +29,45 @@ module.exports = (elem, verbose) => new Promise((resolve, reject) => get(
         });
       });
 
-      const details = $('.indented .notes');
-      if (!details.length) {
+      const detailsElems = $('.indented .notes');
+      if (!detailsElems.length) {
         console.error(doc, `${apiUrl}/${elem.find('a').attr('href')}`);
         return reject('No details pane. Cannot deep-parse entry.');
       }
 
-      const firstDetail = $(details.get(0));
-      const ifidRaw = $(details.get(1)).text().match(/IFID: (\S+)/);
-      const ifid = (!ifidRaw || ifidRaw[1] === 'Unknown') ? null : ifidRaw[1];
-      const languageRaw = firstDetail.text().match(/Language: (\S+ \(.+\))/);
-      const language = languageRaw ? languageRaw[1] : null;
-      const systemRaw = firstDetail.text().match(/Development System: (\S+)/);
-      const system = systemRaw ? systemRaw[1] : null;
+      let ifid;
+      let firstPublicationDate;
+      let language;
+      let system;
+
+      const details = detailsElems
+        .text()
+        .split(/\s\s/)
+        .filter(Boolean)
+        .map((aa) => aa.trim());
+
+
+      details.forEach((line) => {
+        if (/^Development system: /i.test(line)) {
+          system = line.slice(20);
+        } else if (/^First Publication Date: /i.test(line)) {
+          firstPublicationDate = line.slice(24);
+        } else if (/^Language: /i.test(line)) {
+          language = line.slice(10);
+        } else if (/^IFID: /i.test(line)) {
+          ifid = line.slice(6);
+        }
+      });
+
       const ret = {
         downloads,
+        firstPublicationDate,
         ifid,
         language,
         system,
       };
 
       return resolve(ret);
-    })
+    });
   },
 ));

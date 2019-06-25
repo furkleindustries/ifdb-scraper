@@ -1,3 +1,1 @@
-module.exports = {
-  scrape: require('./scrape'),
-};
+module.exports = require('./scrape');
